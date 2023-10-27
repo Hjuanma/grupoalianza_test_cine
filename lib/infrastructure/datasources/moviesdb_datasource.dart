@@ -8,11 +8,13 @@ import 'package:grupoalianza_test_cine/infrastructure/models/moviedb_response.da
 import '../../domain/datasources/movies_datasource.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
+  //Se crea una instancia de dio para las consultas al servidor.
   final dio = Dio(BaseOptions(baseUrl: TheMoviesDB.baseUrl, queryParameters: {
     "api_key": Environmet.theMovieDbKey,
     "language": "es-MX"
   }));
 
+  //Se retorna una lista de peliculas mapeada a la entidad local para el manejo de los datos.
   @override
   Future<List<Movie>> getNowPlaging({int page = 1}) async {
     final response =
