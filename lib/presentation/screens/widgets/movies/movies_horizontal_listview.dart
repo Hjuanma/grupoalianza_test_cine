@@ -79,21 +79,29 @@ class _Title extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme.titleLarge;
 
     return Container(
-        padding: const EdgeInsets.only(top: 10, bottom: 5),
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          children: [
-            if (title != null)
-              Text(
-                title!,
-                style: textStyle,
-              ),
-            const Spacer(),
-            FilledButton.tonal(
-              onPressed: () {},
-              child: const Text(AppConstants.viewAll),
-            )
-          ],
-        ));
+      padding: const EdgeInsets.only(
+        top: 10,
+        bottom: 5,
+      ),
+      margin: const EdgeInsets.symmetric(
+        horizontal: 10,
+      ),
+      child: Row(
+        children: [
+          if (title != null)
+            Text(
+              title!,
+              style: textStyle,
+            ),
+          const Spacer(),
+          TextButton(
+            onPressed: () {},
+            child: const Text(
+              AppConstants.viewAll,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

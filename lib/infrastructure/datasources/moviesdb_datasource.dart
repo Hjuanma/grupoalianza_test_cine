@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:grupoalianza_test_cine/config/constants/app_constants.dart';
 import 'package:grupoalianza_test_cine/config/constants/environment.dart';
@@ -18,10 +20,18 @@ class MoviedbDatasource extends MoviesDatasource {
   //Se retorna una lista de peliculas mapeada a la entidad local para el manejo de los datos.
   @override
   Future<List<Movie>> getNowPlaging({int page = 1}) async {
-    final response =
-        await dio.get("${TheMoviesDB.movie}${TheMoviesDB.nowPlaying}");
+    Map<String, dynamic> data;
 
-    final moviedbResponse = MovieDbResponse.fromJson(response.data);
+    //* Se agrega try chat por intermitencias en el servicio
+    try {
+      final response =
+          await dio.get("${TheMoviesDB.movie}${TheMoviesDB.nowPlaying}");
+      data = response.data;
+    } catch (e) {
+      data = jsonDecode(AppConstants.mock) as Map<String, dynamic>;
+    }
+
+    final moviedbResponse = MovieDbResponse.fromJson(data);
     final List<Movie> movies = moviedbResponse.results
         .where((element) => element.posterPath != "no-poster")
         .map((e) => MovieMapper.movieDBToEntity(e))

@@ -21,6 +21,8 @@ class MovieListItem extends StatelessWidget {
           width: 150,
           height: 305,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
