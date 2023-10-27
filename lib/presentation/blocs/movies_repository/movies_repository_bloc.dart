@@ -18,6 +18,7 @@ class MoviesRepositoryBloc
     on<MoviesRepositoryUpdated>(_onMoviesLoaded);
   }
 
+//Se consultan las peliculas por pagina en endpoint
   void loadMovies() async {
     List<Movie> movies = await _moviesRepository.getNowPlaging();
 
@@ -26,6 +27,7 @@ class MoviesRepositoryBloc
     page++;
   }
 
+//Se agregan las nuevas peliculas al state
   void _onMoviesLoaded(
       MoviesRepositoryUpdated event, Emitter<MoviesRepositoryState> emit) {
     emit(state.copyWith(movies: [...state.movies, ...event.moviesList]));

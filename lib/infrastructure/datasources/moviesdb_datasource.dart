@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:grupoalianza_test_cine/config/constants/app_constants.dart';
 import 'package:grupoalianza_test_cine/config/constants/environment.dart';
 import 'package:grupoalianza_test_cine/config/constants/themoviedb.dart';
 import 'package:grupoalianza_test_cine/domain/entities/movies/movie.dart';
@@ -11,7 +12,7 @@ class MoviedbDatasource extends MoviesDatasource {
   //Se crea una instancia de dio para las consultas al servidor.
   final dio = Dio(BaseOptions(baseUrl: TheMoviesDB.baseUrl, queryParameters: {
     "api_key": Environmet.theMovieDbKey,
-    "language": "es-MX"
+    "language": AppConstants.language
   }));
 
   //Se retorna una lista de peliculas mapeada a la entidad local para el manejo de los datos.
