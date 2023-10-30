@@ -19,7 +19,7 @@ class MoviesRepositoryBloc
   }
 
 //Se consultan las peliculas por pagina en endpoint
-  void loadMovies() async {
+  Future<void> loadMovies() async {
     List<Movie> movies = await _moviesRepository.getNowPlaging();
 
     add(MoviesRepositoryUpdated(movies));

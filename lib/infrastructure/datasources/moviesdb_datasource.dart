@@ -13,7 +13,7 @@ import '../../domain/datasources/movies_datasource.dart';
 class MoviedbDatasource extends MoviesDatasource {
   //Se crea una instancia de dio para las consultas al servidor.
   final dio = Dio(BaseOptions(baseUrl: TheMoviesDB.baseUrl, queryParameters: {
-    "api_key": Environmet.theMovieDbKey,
+    "api-key": Environmet.theMovieDbKey,
     "language": AppConstants.language
   }));
 

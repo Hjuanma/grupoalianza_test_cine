@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../config/constants/app_constants.dart';
+import '../../../../config/constants/enumerables.dart';
 import '../../../blocs/movies_repository/movies_repository_bloc.dart';
 import '../../widgets/movies/movies_horizontal_listview.dart';
 
@@ -14,11 +15,29 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  bool isLoading = false;
+  bool isLastPage = false;
+
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+
     //Se escucha de forma activa el bloc para detectar la actualizacion de las peliculas
     context.read<MoviesRepositoryBloc>().loadMovies();
+  }
 
+  Future<void> loadNextPage() async {
+    if (isLoading || isLastPage) return;
+
+    isLoading = true;
+
+    await context.read<MoviesRepositoryBloc>().loadMovies();
+
+    isLoading = false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final movies = context.watch<MoviesRepositoryBloc>().state.movies;
     final colors = Theme.of(context).colorScheme;
     return CustomScrollView(
@@ -32,16 +51,20 @@ class _HomeViewState extends State<HomeView> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Container(
-                color: colors.secondary,
+                color: colors.background,
                 child: Column(
                   children: [
                     MoviesHorizontalListView(
                       movies: movies,
                       title: AppConstants.recomended,
+                      loadNexPAge: () async => await loadNextPage(),
+                      category: Categories.recomended.value,
                     ),
                     MoviesHorizontalListView(
                       movies: movies,
                       title: AppConstants.recomended,
+                      loadNexPAge: () async => await loadNextPage(),
+                      category: Categories.recomended.value,
                     ),
                   ],
                 ),
@@ -96,13 +119,13 @@ class _CustomSliverAppBar extends StatelessWidget {
                   CupertinoTextField(
                     controller: _filter,
                     keyboardType: TextInputType.text,
-                    placeholderStyle: const TextStyle(color: Colors.white),
+                    placeholderStyle: TextStyle(color: colors.secondary),
                     placeholder: AppConstants.searcheLabel,
-                    prefix: const Padding(
-                      padding: EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
+                    prefix: Padding(
+                      padding: const EdgeInsets.fromLTRB(9.0, 6.0, 9.0, 6.0),
                       child: Icon(
                         Icons.search,
-                        color: Colors.white,
+                        color: colors.secondary,
                       ),
                     ),
                     decoration: BoxDecoration(

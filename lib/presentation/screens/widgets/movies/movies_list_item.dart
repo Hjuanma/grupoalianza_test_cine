@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:grupoalianza_test_cine/config/constants/helpers/HumanFormats.dart';
 import 'package:grupoalianza_test_cine/domain/entities/movies/movie.dart';
 
 class MovieListItem extends StatelessWidget {
   final Movie movie;
+  final bool? fromHome;
   const MovieListItem({
     super.key,
     required this.movie,
+    this.fromHome = false,
   });
 
   @override
@@ -19,7 +20,6 @@ class MovieListItem extends StatelessWidget {
         //Image
         SizedBox(
           width: 150,
-          height: 305,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,34 +63,6 @@ class MovieListItem extends StatelessWidget {
                 maxLines: 2,
                 style: textStyle.titleMedium,
               ),
-
-              const Spacer(),
-
-              //*Popularidad
-              SizedBox(
-                width: 150,
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.star_half_outlined,
-                      color: Colors.yellow.shade800,
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text(
-                      "${movie.voteAverage}",
-                      style: textStyle.bodyMedium
-                          ?.copyWith(color: Colors.yellow.shade800),
-                    ),
-                    const Spacer(),
-                    Text(
-                      HumanFormats.number(movie.popularity),
-                      style: textStyle.bodySmall,
-                    )
-                  ],
-                ),
-              )
             ],
           ),
         ),
