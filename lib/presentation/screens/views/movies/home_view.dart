@@ -94,7 +94,7 @@ class _HomeViewState extends State<HomeView> {
                       movies: topRatedMovies,
                       title: AppConstants.topRated,
                       loadNexPAge: () async =>
-                          await loadNextPage(Categories.popular),
+                          await loadNextPage(Categories.topRate),
                       category: Categories.topRate.value,
                     ),
                     MoviesHorizontalListView(

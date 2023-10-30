@@ -65,8 +65,21 @@ class _CategoriScreenState extends State<CategoriScreen> {
         .firstOrNull;
     switch (option) {
       case Categories.recomended:
-        movies = context.watch<MoviesRepositoryBlocPopular>().state.movies;
+        movies = context.watch<MoviesRepositoryBlocPlaying>().state.movies;
         title = AppConstants.recomended;
+        break;
+      case Categories.popular:
+        title = AppConstants.popular;
+        movies = context.watch<MoviesRepositoryBlocPopular>().state.movies;
+
+        break;
+      case Categories.topRate:
+        movies = context.watch<MoviesRepositoryBlocTopRate>().state.movies;
+        title = AppConstants.topRated;
+        break;
+      case Categories.upcoming:
+        movies = context.watch<MoviesRepositoryBlocUpcoming>().state.movies;
+        title = AppConstants.upcoming;
         break;
       default:
     }
