@@ -12,30 +12,96 @@ import '../../domain/datasources/movies_datasource.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   //Se crea una instancia de dio para las consultas al servidor.
-  final dio = Dio(BaseOptions(baseUrl: TheMoviesDB.baseUrl, queryParameters: {
-    "api-key": Environmet.theMovieDbKey,
-    "language": AppConstants.language
-  }));
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: TheMoviesDB.baseUrl,
+      queryParameters: {
+        "api-key": Environmet.theMovieDbKey,
+        "language": AppConstants.language
+      },
+    ),
+  );
 
-  //Se retorna una lista de peliculas mapeada a la entidad local para el manejo de los datos.
+  //* Se mapea el json obtenido de la consulta
+  List<Movie> _jsonToMovie(Map<String, dynamic> json) {
+    final movieDBResponse = MovieDbResponse.fromJson(json);
+
+    final List<Movie> movies = movieDBResponse.results
+        .where((movieDb) => movieDb.posterPath != "no-poster")
+        .map((movieDb) => MovieMapper.movieDBToEntity(movieDb))
+        .toList();
+    return movies;
+  }
+
+  //*Se retorna una lista de peliculas mapeada a la entidad local para el manejo de los datos.
   @override
   Future<List<Movie>> getNowPlaging({int page = 1}) async {
     Map<String, dynamic> data;
 
     //* Se agrega try chat por intermitencias en el servicio
     try {
-      final response =
-          await dio.get("${TheMoviesDB.movie}${TheMoviesDB.nowPlaying}");
+      final response = await dio.get(
+          "${TheMoviesDB.movie}${TheMoviesDB.nowPlaying}",
+          queryParameters: {"page": page});
       data = response.data;
     } catch (e) {
       data = jsonDecode(AppConstants.mock) as Map<String, dynamic>;
     }
+    return _jsonToMovie(data);
+  }
 
-    final moviedbResponse = MovieDbResponse.fromJson(data);
-    final List<Movie> movies = moviedbResponse.results
-        .where((element) => element.posterPath != "no-poster")
-        .map((e) => MovieMapper.movieDBToEntity(e))
-        .toList();
-    return movies;
+  @override
+  Future<List<Movie>> getPopularMovies({int page = 1}) async {
+    Map<String, dynamic> data;
+
+    //* Se agrega try chat por intermitencias en el servicio
+    try {
+      final response = await dio.get(
+        "${TheMoviesDB.movie}${TheMoviesDB.popular}",
+        queryParameters: {"page": page},
+      );
+      data = response.data;
+    } catch (e) {
+      data = jsonDecode(AppConstants.mock) as Map<String, dynamic>;
+    }
+    return _jsonToMovie(data);
+  }
+
+  @override
+  Future<List<Movie>> getTopRatedMovies({int page = 1}) async {
+    Map<String, dynamic> data;
+
+    //* Se agrega try chat por intermitencias en el servicio
+    try {
+      final response = await dio.get(
+          "${TheMoviesDB.movie}${TheMoviesDB.topRated}",
+          queryParameters: {"page": page});
+      data = response.data;
+    } catch (e) {
+      data = jsonDecode(AppConstants.mock) as Map<String, dynamic>;
+    }
+    return _jsonToMovie(data);
+  }
+
+  @override
+  Future<List<Movie>> getUpcomingMovies({int page = 1}) async {
+    Map<String, dynamic> data;
+
+    //* Se agrega try chat por intermitencias en el servicio
+    try {
+      final response = await dio.get(
+          "${TheMoviesDB.movie}${TheMoviesDB.upcoming}",
+          queryParameters: {"page": page});
+      data = response.data;
+    } catch (e) {
+      data = jsonDecode(AppConstants.mock) as Map<String, dynamic>;
+    }
+    return _jsonToMovie(data);
+  }
+
+  @override
+  Future<Movie> getMovieById(String id) {
+    // TODO: implement getMovieById
+    throw UnimplementedError();
   }
 }

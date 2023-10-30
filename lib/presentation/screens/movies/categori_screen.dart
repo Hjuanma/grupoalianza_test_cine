@@ -31,8 +31,20 @@ class _CategoriScreenState extends State<CategoriScreen> {
 
     switch (option) {
       case Categories.recomended:
-        await context.read<MoviesRepositoryBloc>().loadMovies();
+        await context
+            .read<MoviesRepositoryBlocPlaying>()
+            .loadNowPlagingMovies();
 
+        break;
+      case Categories.popular:
+        await context.read<MoviesRepositoryBlocPopular>().loadPupularMovies();
+
+        break;
+      case Categories.topRate:
+        await context.read<MoviesRepositoryBlocTopRate>().loadTopRatedMovies();
+        break;
+      case Categories.upcoming:
+        await context.read<MoviesRepositoryBlocUpcoming>().loadUpcomingMovies();
         break;
       default:
     }
@@ -53,7 +65,7 @@ class _CategoriScreenState extends State<CategoriScreen> {
         .firstOrNull;
     switch (option) {
       case Categories.recomended:
-        movies = context.watch<MoviesRepositoryBloc>().state.movies;
+        movies = context.watch<MoviesRepositoryBlocPopular>().state.movies;
         title = AppConstants.recomended;
         break;
       default:

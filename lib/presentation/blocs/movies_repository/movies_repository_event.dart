@@ -1,14 +1,25 @@
 part of 'movies_repository_bloc.dart';
 
 sealed class MoviesRepositoryEvent extends Equatable {
-  const MoviesRepositoryEvent();
+  final List<Movie> moviesList;
+  const MoviesRepositoryEvent({required this.moviesList});
 
   @override
   List<Object> get props => [];
 }
 
-class MoviesRepositoryUpdated extends MoviesRepositoryEvent {
-  final List<Movie> moviesList;
+class MoviesRepositoryNowPlayingUpdated extends MoviesRepositoryEvent {
+  const MoviesRepositoryNowPlayingUpdated({required super.moviesList});
+}
 
-  const MoviesRepositoryUpdated(this.moviesList);
+class MoviesRepositoryPopularUpdated extends MoviesRepositoryEvent {
+  const MoviesRepositoryPopularUpdated({required super.moviesList});
+}
+
+class MoviesRepositoryTopRatedUpdated extends MoviesRepositoryEvent {
+  const MoviesRepositoryTopRatedUpdated({required super.moviesList});
+}
+
+class MoviesRepositoryUpcomingUpdated extends MoviesRepositoryEvent {
+  const MoviesRepositoryUpcomingUpdated({required super.moviesList});
 }

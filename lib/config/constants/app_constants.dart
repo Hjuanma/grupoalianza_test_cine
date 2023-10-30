@@ -2,6 +2,9 @@ class AppConstants {
   static const String viewAll = "ver todo";
   static const String language = "es-MX";
   static const String recomended = "Recomendadas para ti";
+  static const String topRated = "Los más valorados";
+  static const String upcoming = "próximomente";
+  static const String popular = "Populares";
   static const String searcheTitle = "Hola, que te gustaria ver?";
   static const String searcheLabel = "Buscar";
 

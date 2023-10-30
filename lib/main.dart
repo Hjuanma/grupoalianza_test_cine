@@ -12,8 +12,17 @@ Future<void> main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
-        create: (context) => MoviesRepositoryBloc(),
-      )
+        create: (context) => MoviesRepositoryBlocPlaying(),
+      ),
+      BlocProvider(
+        create: (context) => MoviesRepositoryBlocPopular(),
+      ),
+      BlocProvider(
+        create: (context) => MoviesRepositoryBlocTopRate(),
+      ),
+      BlocProvider(
+        create: (context) => MoviesRepositoryBlocUpcoming(),
+      ),
     ],
     child: const MainApp(),
   ));

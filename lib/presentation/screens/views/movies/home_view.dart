@@ -23,22 +23,51 @@ class _HomeViewState extends State<HomeView> {
     super.initState();
 
     //Se escucha de forma activa el bloc para detectar la actualizacion de las peliculas
-    context.read<MoviesRepositoryBloc>().loadMovies();
+    context.read<MoviesRepositoryBlocPlaying>().loadNowPlagingMovies();
+    context.read<MoviesRepositoryBlocPopular>().loadPupularMovies();
+    context.read<MoviesRepositoryBlocTopRate>().loadTopRatedMovies();
+    context.read<MoviesRepositoryBlocUpcoming>().loadUpcomingMovies();
   }
 
-  Future<void> loadNextPage() async {
+  Future<void> loadNextPage(Categories category) async {
     if (isLoading || isLastPage) return;
 
     isLoading = true;
 
-    await context.read<MoviesRepositoryBloc>().loadMovies();
+    switch (category) {
+      case Categories.recomended:
+        await context
+            .read<MoviesRepositoryBlocPlaying>()
+            .loadNowPlagingMovies();
+
+        break;
+      case Categories.popular:
+        await context.read<MoviesRepositoryBlocPopular>().loadPupularMovies();
+
+        break;
+      case Categories.topRate:
+        await context.read<MoviesRepositoryBlocTopRate>().loadTopRatedMovies();
+        break;
+      case Categories.upcoming:
+        await context.read<MoviesRepositoryBlocUpcoming>().loadUpcomingMovies();
+        break;
+      default:
+    }
 
     isLoading = false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final movies = context.watch<MoviesRepositoryBloc>().state.movies;
+    final recomendedMovies =
+        context.watch<MoviesRepositoryBlocPopular>().state.movies;
+    final topRatedMovies =
+        context.watch<MoviesRepositoryBlocPopular>().state.movies;
+    final popularMovies =
+        context.watch<MoviesRepositoryBlocPopular>().state.movies;
+    final upcomingMovies =
+        context.watch<MoviesRepositoryBlocUpcoming>().state.movies;
+
     final colors = Theme.of(context).colorScheme;
     return CustomScrollView(
       physics: const ClampingScrollPhysics(),
@@ -55,16 +84,32 @@ class _HomeViewState extends State<HomeView> {
                 child: Column(
                   children: [
                     MoviesHorizontalListView(
-                      movies: movies,
+                      movies: recomendedMovies,
                       title: AppConstants.recomended,
-                      loadNexPAge: () async => await loadNextPage(),
+                      loadNexPAge: () async =>
+                          await loadNextPage(Categories.recomended),
                       category: Categories.recomended.value,
                     ),
                     MoviesHorizontalListView(
-                      movies: movies,
-                      title: AppConstants.recomended,
-                      loadNexPAge: () async => await loadNextPage(),
-                      category: Categories.recomended.value,
+                      movies: topRatedMovies,
+                      title: AppConstants.topRated,
+                      loadNexPAge: () async =>
+                          await loadNextPage(Categories.popular),
+                      category: Categories.topRate.value,
+                    ),
+                    MoviesHorizontalListView(
+                      movies: popularMovies,
+                      title: AppConstants.popular,
+                      loadNexPAge: () async =>
+                          await loadNextPage(Categories.popular),
+                      category: Categories.popular.value,
+                    ),
+                    MoviesHorizontalListView(
+                      movies: upcomingMovies,
+                      title: AppConstants.upcoming,
+                      loadNexPAge: () async =>
+                          await loadNextPage(Categories.upcoming),
+                      category: Categories.upcoming.value,
                     ),
                   ],
                 ),
@@ -80,9 +125,7 @@ class _HomeViewState extends State<HomeView> {
 class _CustomSliverAppBar extends StatelessWidget {
   final TextEditingController _filter = TextEditingController();
 
-  _CustomSliverAppBar({
-    super.key,
-  });
+  _CustomSliverAppBar();
 
   @override
   Widget build(BuildContext context) {
