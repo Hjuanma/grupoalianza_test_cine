@@ -12,12 +12,12 @@ import '../../domain/datasources/movies_datasource.dart';
 import '../models/moviedb_details.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
-  //Se crea una instancia de dio para las consultas al servidor.
+  //* Se crea una instancia de dio para las consultas al servidor.
   final dio = Dio(
     BaseOptions(
       baseUrl: TheMoviesDB.baseUrl,
       queryParameters: {
-        "api-key": Environment.theMovieDbKey,
+        "api_key": Environment.theMovieDbKey,
         "language": AppConstants.language
       },
     ),
@@ -100,6 +100,7 @@ class MoviedbDatasource extends MoviesDatasource {
     return _jsonToMovie(data);
   }
 
+  @override
   Future<Movie> getMovieById(String id) async {
     final response = await dio.get("${TheMoviesDB.movie}$id");
 

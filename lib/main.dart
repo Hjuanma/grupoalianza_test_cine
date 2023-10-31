@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:grupoalianza_test_cine/config/router/app_router.dart';
 import 'package:grupoalianza_test_cine/config/theme/app_theme.dart';
-import 'package:grupoalianza_test_cine/presentation/blocs/movies_repository/movies_repository_bloc.dart';
+import 'package:grupoalianza_test_cine/presentation/blocs/blocs.dart';
 
 Future<void> main() async {
   await dotenv.load(
     fileName: ".env",
   );
+  //* Se inicializan los providers que se van a usar a lo largo de la aplicacion
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(
@@ -22,6 +23,12 @@ Future<void> main() async {
       ),
       BlocProvider(
         create: (context) => MoviesRepositoryBlocUpcoming(),
+      ),
+      BlocProvider(
+        create: (context) => MovieInfoBloc(),
+      ),
+      BlocProvider(
+        create: (context) => ActorsBloc(),
       ),
     ],
     child: const MainApp(),

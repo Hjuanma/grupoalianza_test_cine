@@ -19,7 +19,7 @@ class ActorsBloc extends Bloc<ActorsInfoFetchEvent, ActorsState> {
         state.copyWith(actors: {...state.actors, event.movieId: event.actors}));
   }
 
-  Future<void> fetchMovie(String movieId) async {
+  Future<void> fetchActorsByMovie(String movieId) async {
     if (state.actors[movieId] != null) return;
 
     List<Actor> actors = await _moviesRepository.getActorsByMovie(movieId);
