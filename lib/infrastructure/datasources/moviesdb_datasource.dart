@@ -9,6 +9,7 @@ import 'package:grupoalianza_test_cine/infrastructure/mappers/movie_mappers.dart
 import 'package:grupoalianza_test_cine/infrastructure/models/moviedb_response.dart';
 
 import '../../domain/datasources/movies_datasource.dart';
+import '../models/moviedb_details.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   //Se crea una instancia de dio para las consultas al servidor.
@@ -16,7 +17,7 @@ class MoviedbDatasource extends MoviesDatasource {
     BaseOptions(
       baseUrl: TheMoviesDB.baseUrl,
       queryParameters: {
-        "api-key": Environmet.theMovieDbKey,
+        "api-key": Environment.theMovieDbKey,
         "language": AppConstants.language
       },
     ),
@@ -99,9 +100,16 @@ class MoviedbDatasource extends MoviesDatasource {
     return _jsonToMovie(data);
   }
 
-  @override
-  Future<Movie> getMovieById(String id) {
-    // TODO: implement getMovieById
-    throw UnimplementedError();
+  Future<Movie> getMovieById(String id) async {
+    final response = await dio.get("${TheMoviesDB.movie}$id");
+
+    if (response.statusCode != 200)
+      throw Exception("Movie with id: $id not found");
+
+    final movieDB = MovieDbDetails.fromJson(response.data);
+
+    final movie = MovieMapper.movieDbDetailsToEntity(movieDB);
+
+    return movie;
   }
 }

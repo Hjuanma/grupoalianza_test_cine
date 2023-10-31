@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grupoalianza_test_cine/domain/entities/movies/movie.dart';
 
 class MovieListItem extends StatelessWidget {
@@ -44,7 +45,7 @@ class MovieListItem extends StatelessWidget {
                           );
                         }
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () => context.push("/movie/${movie.id}"),
                           child: child,
                         );
                       },

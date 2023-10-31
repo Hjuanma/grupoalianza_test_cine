@@ -5,7 +5,7 @@ sealed class MoviesRepositoryEvent extends Equatable {
   const MoviesRepositoryEvent({required this.moviesList});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [moviesList];
 }
 
 class MoviesRepositoryNowPlayingUpdated extends MoviesRepositoryEvent {

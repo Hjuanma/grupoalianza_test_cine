@@ -6,4 +6,5 @@ class TheMoviesDB {
   static const String popular = "popular/";
   static const String topRated = "top_rated/";
   static const String upcoming = "upcoming/";
+  static const String credits = "credits";
 }

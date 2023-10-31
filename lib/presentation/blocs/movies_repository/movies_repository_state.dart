@@ -5,7 +5,7 @@ sealed class MoviesRepositoryState extends Equatable {
   const MoviesRepositoryState({this.movies = const []});
   MoviesRepositoryState copyWith({List<Movie>? movies});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [movies];
 }
 
 final class NowPlayingMoviesRepositoryState extends MoviesRepositoryState {

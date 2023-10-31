@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:grupoalianza_test_cine/presentation/screens/movies/categori_screen.dart';
+import 'package:grupoalianza_test_cine/presentation/screens/movies/movie_screen.dart';
 import 'package:grupoalianza_test_cine/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
@@ -17,7 +18,14 @@ final appRouter = GoRouter(
             return CategoriScreen(
                 categoriId: state.pathParameters["id"] ?? "no-id");
           },
-        )
+        ),
+        GoRoute(
+          path: "movie/:id",
+          name: MovieScreen.name,
+          builder: (context, state) {
+            return MovieScreen(movieId: state.pathParameters["id"] ?? "no-id");
+          },
+        ),
       ],
     ),
   ],
